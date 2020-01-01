@@ -15,7 +15,11 @@ git clone https://github.com/dceads4490/flask_api_demo.git
 
 . .ENV 
 
-#Run the following command to build the app
+#Create a data directory the app is expecting and move files there
+mkdir tl_2019_us_state
+mv tl_2019_us_state.* tl_2019_us_state
+
+#Run the following command to build the app from BASH command prompt
 
 docker-compose build
 
@@ -27,7 +31,7 @@ docker-compose up
 
 http://localhost:5000/state_locator/?addr="7105 Avalon blvd, alpharetta"
 
-#Testing using curl will require parsing the address to replace spaces.  You can use the following from the command prompt.
+#Testing using curl will require parsing the address to replace spaces.  You can use the following from the BASH command prompt.
 
 ADDR="7105 Avalon blvd, alpharetta, ga"
 
