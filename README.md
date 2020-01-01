@@ -16,7 +16,9 @@ git clone https://github.com/dceads4490/flask_api_demo.git
 . .ENV 
 
 #Create a data directory the app is expecting and move files there
+
 mkdir tl_2019_us_state
+
 mv tl_2019_us_state.* tl_2019_us_state
 
 #Run the following command to build the app from BASH command prompt
