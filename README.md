@@ -5,7 +5,7 @@ Simple python flask app using docker to demontrate use of google API and postgis
 
 git clone https://github.com/dceads4490/flask_api_demo.git
 
-# YOU will need to perform the following prior to docker build!!!!!
+# You will need to perform the following prior to docker build!!!!!
 
 #You will need to provide your own Google API key to make this work!
 
