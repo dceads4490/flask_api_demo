@@ -6,8 +6,11 @@ Simple python flask app using docker to demontrate use of google API and postgis
 git clone https://github.com/dceads4490/flask_api_demo.git
 
 # YOU WILL NEED TO PERFORM THE FOLLOWING PRIOR TO DOCKER BUILD!!!!!
+
 #You will need to provide your own Google API key to make this work!
+
 #Edit .env file and place value for GOOGLE_API_KEY environment variable
+
 #Dot in the .env file to set Google API KEY and postgress variables
 
 . .ENV 
@@ -21,6 +24,7 @@ docker-compose build
 docker-compose up
 
 #You can test the service using a web browser
+
 http://localhost:5000/state_locator/?addr="7105 Avalon blvd, alpharetta"
 
 #Testing using curl will require parsing the address to replace spaces.  You can use the following from the command prompt.
