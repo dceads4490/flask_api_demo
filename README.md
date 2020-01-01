@@ -26,7 +26,9 @@ http://localhost:5000/state_locator/?addr="7105 Avalon blvd, alpharetta"
 #Testing using curl will require parsing the address to replace spaces.  You can use the following from the command prompt.
 
 ADDR="7105 Avalon blvd, alpharetta, ga"
+
 state=$(curl http://localhost:5000/state_locator/?addr=$(echo $ADDR|sed 's/ /%20/g'))
+
 echo $state
 
 If successful, this example should return Georgia
