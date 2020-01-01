@@ -2,6 +2,7 @@
 Simple python flask app using docker to demontrate use of google API and postgis to evaluate addresses
 
 #Clone repository
+
 git clone https://github.com/dceads4490/flask_api_demo.git
 
 # YOU WILL NEED TO PERFORM THE FOLLOWING PRIOR TO DOCKER BUILD!!!!!
