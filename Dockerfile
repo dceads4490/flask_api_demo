@@ -16,10 +16,8 @@ RUN pip freeze > requirements.txt
 RUN echo "flask" >> requirements.txt
 RUN echo "redis" >> requirements.txt
 RUN pip install -r requirements.txt
-#CMD python app.py
 RUN mkdir /app
 COPY . /app
-#COPY cb_2018_us_state_500k.shp postgres-data/postgres:/var/lib/postgresql/data
 WORKDIR /app
 #Expose flask port & postgres port
 EXPOSE 5000
