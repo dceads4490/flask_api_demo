@@ -1,9 +1,8 @@
 #Start with postgis image
 FROM mdillon/postgis as postgis_stg
-#cp init file
-#COPY init.sql /docker-entrypoint-initdb.d/10-init.sql
 #create load directory and copy shapefile
 RUN mkdir tl_2019_us_state
 COPY tl_2019_us_state/* /tl_2019_us_state/
 RUN chmod 644 /tl_2019_us_state/* 
+#COPY load script to /docker-entrypoint-initdb.d/
 COPY z_load-shp_file.sh /docker-entrypoint-initdb.d/

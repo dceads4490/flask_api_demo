@@ -62,7 +62,6 @@ def state_loc():
     cursor.close()
     connection.close()
 
-#    return jsonify(row)
     return row[0]
 
 
