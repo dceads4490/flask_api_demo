@@ -3,7 +3,10 @@ from flask import Flask, request, jsonify, make_response
 import requests
 # Import the database driver and shapefile library
 import psycopg2
+import psycopg2.pool
 import shapefile
+import socket
+import time
 import os
 from envs import env
 import logging
@@ -18,13 +21,43 @@ log.setLevel(logging.INFO)
 app = Flask(__name__)
 
 
+def postgress_wait():
+    port = 5432
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    while True:
+        try:
+            s.connect(('postgres', port))
+            s.close()
+            break
+        except socket.error as ex:
+            log.info("Waiting for postgress")
+            time.sleep(1)
+
+
+def init_db_pool():
+    global pool
+    postgres_db=env('POSTGRES_DB')
+    postgres_user=env('POSTGRES_USER')
+    postgres_password=env('POSTGRES_PASSWORD')
+    log.info("Going to print env")
+    log.info(postgres_db)
+    log.info(postgres_user)
+    log.info(postgres_password)
+    pool = psycopg2.pool.SimpleConnectionPool(1, 20, host="postgres", 
+            database=env('POSTGRES_DB'), 
+            user=env('POSTGRES_USER'), 
+            password=env('POSTGRES_PASSWORD'))
+
+postgress_wait()
+init_db_pool()
+
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 @app.route('/')
 def hello():
-    results='Hello'
+    results='No Parameter provided'
 
     return results
 
@@ -49,8 +82,8 @@ def state_loc():
        return make_response(jsonify({'error': 'No Address supplied'}), 404)
 
 
-    # Set up the datbase connection
-    connection = psycopg2.connect(host="postgres",database=env('POSTGRES_DB'), user=env('POSTGRES_USER'), password=env('POSTGRES_PASSWORD'))
+    # Get database connection
+    connection = pool.getconn()
 
     # Get the database cursor to execute queries
     cursor = connection.cursor()
@@ -60,8 +93,10 @@ def state_loc():
     log.info(query)
     log.info("value=["+row[0]+"]")
     cursor.close()
-    connection.close()
+    #Close connection
+    pool.putconn(connection)
 
+#    return jsonify(row)
     return row[0]
 
 
