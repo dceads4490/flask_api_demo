@@ -1,6 +1,11 @@
 # flask_api_demo
 Simple python flask app using docker that uses google API and postgis to evaluate addresses.  This demonstrates using multiple Dockerfile(s) to build separate docker containers. This provides an example of placing a script in /docker-entrypoint-initdb.d on the postgres container at build in order to initalze the database and load the table that is necessary to run the app. shp2pgsql is used to load the shapefile. Also has sample of simple connection pool and an app check_wait for postgres DB before startup.
 
+Complete code and instructions for building from scatch are here.
+  https://s3.amazonaws.com/engineereddatasolutions.com/flask-api-demo-jupytor.html
+  
+The following instructions can be used to clone the repository and build the app.
+
 #Clone repository
 
 git clone https://github.com/dceads4490/flask_api_demo.git
