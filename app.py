@@ -1,4 +1,4 @@
-# flask_api_tst/app.py
+# app.py
 from flask import Flask, request, jsonify, make_response
 import requests
 # Import the database driver and shapefile library
@@ -11,6 +11,7 @@ import os
 from envs import env
 import logging
 import sys
+import atexit
 log = logging.getLogger(__name__)
 out_hdlr = logging.StreamHandler(sys.stdout)
 out_hdlr.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
@@ -20,8 +21,10 @@ log.setLevel(logging.INFO)
 
 app = Flask(__name__)
 
-
 def postgress_wait():
+    # Wait is needed to make sure DB is ready.  Otherwise, web app will fail on first startup.
+    # Note this will cause an erroneous error message from postgres when the DB volume
+    # has already been initialized. "incomplete startup packet"
     port = 5432
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     while True:
@@ -30,8 +33,8 @@ def postgress_wait():
             s.close()
             break
         except socket.error as ex:
-            log.info("Waiting for postgress")
-            time.sleep(1)
+            log.info("Waiting for postgres")
+            time.sleep(10)
 
 
 def init_db_pool():
@@ -66,6 +69,7 @@ def state_loc():
     query_parameters = request.args
     addr = query_parameters.get('addr')
 
+    #Make sure that addr parameter is received
     if addr:
         addr_str=addr
         api_key=env('GOOGLE_API_KEY')
@@ -96,9 +100,7 @@ def state_loc():
     #Close connection
     pool.putconn(connection)
 
-#    return jsonify(row)
     return row[0]
-
 
 
 if __name__ == "__main__":
